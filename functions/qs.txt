@@ -1,0 +1,4 @@
+double funct(char x)
+int
+funct();
+B
