@@ -10,25 +10,18 @@
 #include <iostream>
 #include <cmath>
 
-#define UPPER_LIMIT 1000
+#define UPPER_LIMIT 150
 
-bool is_factor(int num, int component);
+int prime_factorize(int num);
 bool is_prime(int num);
 
 using namespace std;
 
 int main(void)
 {
-    for(int i = 1; i <= UPPER_LIMIT; i++)
+    for(int i = 2; i <= UPPER_LIMIT; i++)
     {
-        int sum = 0;
-        for(int j = 2; j <= i; j++)
-        {
-            if(is_factor(i, j) && is_prime(j))
-            {
-                sum += j;
-            }
-        }
+        int sum = prime_factorize(i);
 
         // if the sum of primes is itself prime, print it
         if(is_prime(sum))
@@ -37,20 +30,60 @@ int main(void)
 }
 
 /**
- * returns true if component is a factor of num
+ * finds the prime factors of a number and returns the sum
+ * of these prime factors
  */
-bool is_factor(int num, int component)
+int prime_factorize(int num)
 {
-    return (component < num) && (num % component == 0);
+    int sum = 0;
+    int lowest_prime = 0;
+
+    for(int i = 2, r = ceil(sqrt(num)); i <= r && lowest_prime == 0; i++)
+    {
+        if(num % i == 0)
+        {
+            if(is_prime(i))
+                lowest_prime = i;
+        }
+    }
+    
+    // add the lowest prime factor to the sum
+    sum += lowest_prime;
+
+    // if the lowest prime was zero, the number itself was prime
+    if(lowest_prime == 0)
+    {
+        sum = num;
+    }
+    else
+    {
+        // in recursive case, multiplier isn't prime
+        // in base case, it is
+        int multiplier = (num / lowest_prime);
+
+        if(is_prime(multiplier))
+            sum += multiplier;
+        else
+            sum += prime_factorize(multiplier);
+    }
+
+    return sum;
 }
 
 /**
- * returns true if num is divisible by nothing but between
- * 2 and its sqrt
+ * returns true if the number is prime, else false
  */
 bool is_prime(int num)
 {
-    for(int i = 2; i < (int)sqrt((double)num); i++)
-        if(num % i == 0) return false;
+    // 0 and 1 aren't primes
+    if(num == 0 || num == 1)
+        return false;
+
+    // trial division it is!
+    for(int i = 2, r = ceil(sqrt(num)); i <= r; i++)
+        if(num % i == 0 && num != i)
+            return false;
+
+    // if we get here, it's prime
     return true;
 }

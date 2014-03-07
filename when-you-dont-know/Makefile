@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-Wall -Werror
+CFLAGS=-Wall -Werror -ggdb
 
 # comment?
 %: %.cpp
