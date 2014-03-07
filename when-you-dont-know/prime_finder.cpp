@@ -3,8 +3,8 @@
  *
  * Evan Sendra
  *
- * finds all numbers from 1 to 1000 whose prime factors, when added, 
- * sum to a prime number
+ * finds all numbers from 1 to an upper limit whose prime 
+ * factors, when added, sum to a prime number
  */
 
 #include <iostream>
@@ -17,6 +17,10 @@ bool is_prime(int num);
 
 using namespace std;
 
+/**
+ * prints out all numbers from 1 to UPPER_LIMIT whose
+ * sum of prime factors (non-distinct) are prime
+ */
 int main(void)
 {
     for(int i = 2; i <= UPPER_LIMIT; i++)
@@ -37,7 +41,8 @@ int prime_factorize(int num)
 {
     int sum = 0;
     int lowest_prime = 0;
-
+    
+    // find the lowest prime number of the num in question
     for(int i = 2, r = ceil(sqrt(num)); i <= r && lowest_prime == 0; i++)
     {
         if(num % i == 0)
