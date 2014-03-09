@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <climits>
 
 using namespace std;
 
@@ -11,25 +12,46 @@ string lt_twenty(int number);
 int main(void)
 {
     int number;
+
     cout << "Which number would you like to pronounce?" << endl;
     cin >> number;
 
+    while(cin.fail())
+    {
+        cin.clear();
+        cin.ignore(INT_MAX, '\n');
+        cout << "Your number was too high or too low. Try again." << endl;
+        cin >> number;
+    }
+    
     string str_num = num_to_text(number);
 
     cout << str_num << endl;
+    
+    /*
+     * print all the numbers from -999,999 to 999,999
+     *
+    for(int i = -999999; i < 999999; i++)
+        cout << num_to_text(i) << endl;
+    *
+    */
 }
 
 string num_to_text(int number)
 {
+    string sign;
     string str_num;
 
-    // don't support if less than 0
+    // if num less than zero, add negative, then process
+    // as a normal number
     if(number < 0)
     {
-        str_num = "ERROR";
+        sign = "negative ";
+        number *= -1;
     }
+
     // hardcode in zero case
-    else if(number == 0)
+    if(number == 0)
     {
         str_num = "zero";
     }
@@ -56,7 +78,7 @@ string num_to_text(int number)
         }
     }
 
-    return str_num;   
+    return (sign + str_num);   
 }
 
 string three_digit_chunk(int number, int level)
