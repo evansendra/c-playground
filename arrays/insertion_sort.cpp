@@ -1,12 +1,22 @@
+/*
+ * insertion_sort.cpp
+ *
+ * Evan Sendra
+ *
+ * detects if a constant sized array is or isn't sorted, sorts
+ * it if needed, and finally prints out the sorted array
+ */
+
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
 
 using namespace std;
 
-#define SIZE 10
+#define SIZE 3 
 
 void sort(int arr[], int size);
+bool is_sorted(int arr[], int size);
 
 int main(void)
 {
@@ -20,13 +30,16 @@ int main(void)
 
     cout << endl;
     
-    sort(arr, SIZE);
+    if(!is_sorted(arr, SIZE))
+        sort(arr, SIZE);
+
     for(int i = 0; i < SIZE; i++)
         cout << arr[i] << endl;
 }
 
 void sort(int arr[], int size)
 {
+    cout << endl << "SORTING..." << endl;
     for(int i = 0; i < size; i++)
     {
         int min_index = i;
@@ -47,4 +60,13 @@ void sort(int arr[], int size)
             arr[i] = tmp;
         }
     }
+}
+
+bool is_sorted(int arr[], int size)
+{
+    for(int i = 0; i < size - 1; i++)
+        if(arr[i] > arr[i + 1])
+            return false;
+
+    return true;
 }
