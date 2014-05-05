@@ -1,64 +1,66 @@
+/**
+ * demonstrates using a multi-dimensional (3d) array by filling
+ * up some 3d multiplication tables and printing them out
+ * 
+ * Evan Sendra
+ * 
+ * [c++][practice][fun]
+ */
 #include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-
+#include <iomanip>
 using namespace std;
 
-void print3DMultTable(int length, int width, int height);
+void table_builder (int length, int width, int height);
 
-int main(int argc, char *argv[])
+int main (void)
 {
-    if(argc != 4)
-    {
-        cout << "usage: ./3d-mult-tables <# of tables> <# of rows> <# of columns>" << endl;
-        return 1;
-    }
-    
-    int height = atoi( argv[ 1 ] );
-    int length = atoi( argv[ 2 ] );
-    int width = atoi( argv[ 3 ] );
-
-    print3DMultTable(length, width, height);
+	table_builder(0, 0, 0);
+	cout << "========================" << endl;
+	table_builder(3, 2, 1);
+	cout << "========================" << endl;
+	table_builder(5, 10, 15);
 }
 
-void print3DMultTable(int length, int width, int height)
+void table_builder (int length, int width, int height)
 {
-    int ***p_p_p_mult_tables;
-    p_p_p_mult_tables = new int**[ height ];
+	// allocate space for the table and fill it
+	int ***p_p_p_table = new int**[ length ];
+	for (int l = 0; l < length; ++l)
+	{
+		p_p_p_table[ l ] = new int*[ width ];
+		for (int w = 0; w < width; ++w)
+		{
+			p_p_p_table[ l ][ w ] = new int[ height ];
+			for (int h = 0; h < height; ++h)
+			{
+				p_p_p_table[ l ][ w ][ h ] = (l*w*h);
+			}
+		}
+	}	
 
-    for(int i = 0; i < height; i++)
-        p_p_p_mult_tables[ i ] = new int*[ length ];
+	// print the table(s)
+	for (int l = 0; l < length; ++l)
+	{
+		for (int w = 0; w < width; ++w)
+		{
+			for (int h = 0; h < height; ++h)
+			{
+				cout << setw(5) << p_p_p_table[ l ][ w ][ h ];	
+			}
+			cout << endl;
+		}
+		cout << endl;
+	}
 
-    for(int i = 0; i < height; i++)
-        for(int j = 0; j < length; j++)
-            p_p_p_mult_tables[ i ][ j ] = new int[ width ];
+	// free da mem
+	for (int l = 0; l < length; ++l)
+	{
+		for (int w = 0; w < width; ++w)
+		{
+			delete [] p_p_p_table[ l ][ w ];
+		}
+		delete [] p_p_p_table[ l ];
+	}
+	delete [] p_p_p_table;
 
-    for(int i = 0; i < height; i++)
-    {
-        for(int j = 0; j < length; j++)
-        {
-            for(int k = 0; k < width; k++)
-            {
-                p_p_p_mult_tables[ i ][ j ][ k ] = (j + 1) * (k + 1);
-                cout << p_p_p_mult_tables[ i ][ j ][ k ] << " ";
-            }
-            cout << endl;
-        }
-        cout << endl;
-    }
-
-    // delete the third dimension
-    for(int i = 0; i < height; i++)
-        for(int j = 0; j < length ; j++)
-            delete[] p_p_p_mult_tables[ i ][ j ];
-
-    // delete the second dimension
-    for(int i = 0; i < height; i++)
-        delete[] p_p_p_mult_tables[ i ];
-
-    // delete the first dimension
-    delete[] p_p_p_mult_tables;
-
-    // can't use this ref for anything meaningful
-    p_p_p_mult_tables = NULL;
 }
