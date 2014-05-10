@@ -1,0 +1,7 @@
+g++ -Wall -Werror -pedantic -ggdb -o simple-list simple-list.cpp
+simple-list.cpp: In function ‘int main()’:
+simple-list.cpp:65:25: error: ‘list’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+         add(list, input);
+                         ^
+cc1plus: all warnings being treated as errors
+make: *** [simple-list] Error 1
