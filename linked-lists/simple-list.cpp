@@ -87,6 +87,26 @@ IntNode* del (IntNode *list, int val)
 	return list;
 }
 
+/**
+ * recursive solution
+ */
+bool search (IntNode *list, int val)
+{
+	if (list == NULL)
+	{
+		return false;
+	}
+	else if (list->x == val)
+	{
+		return true;
+	}
+	else
+	{
+		return search(list->next, val);
+	}
+}
+
+/* iterative solution
 bool search (IntNode *list, int val)
 {
     IntNode *p_list = list;
@@ -98,6 +118,7 @@ bool search (IntNode *list, int val)
     }
     return false;
 }
+*/
 
 void print_list (IntNode *list)
 {

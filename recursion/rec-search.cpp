@@ -1,6 +1,8 @@
 /**
  * demonstrates how much slower a linear search is, compared
  * to a binary one in two separate recursive functions
+ * 
+ * EAS
  */
 
 #include <iostream>
