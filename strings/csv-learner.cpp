@@ -45,21 +45,52 @@ int main (void)
 	for (string::size_type i = 0; i < in.length(); ++i)
 	{
 		set<char>::iterator itr = suspects.find(in[i]);
+		// if the character was in the first round of suspects, insert it
+		// into this set too
 		if (itr != suspects.end())
 			final_suspects.insert(in[i]);
 	}
 
-	// ask user which special char is the separator
-	cout << "Which of these is your separator:" << endl;
-	for (set<char>::const_iterator itr = final_suspects.begin();
-		itr != final_suspects.end();
-		++itr)
+	// ask user which special char is the separator if there is one
+	if (final_suspects.size() == 0)
 	{
-		cout << *itr << endl;
+		cout << "Sorry, no separator detected!" << endl;
+		return 0;
 	}
+	else if (final_suspects.size() == 1)
+	{
+		char separator;
+		for (set<char>::const_iterator itr = final_suspects.begin();
+			itr != final_suspects.end();
+			++itr)
+		{
+			separator = *itr;
+		}
+		cout << "Okay, we'll use the " << separator << " separator." << endl;
+		return 0;
+	}
+	else
+	{
+		cout << "Which of these is your separator:" << endl;
+		for (set<char>::const_iterator itr = final_suspects.begin();
+			itr != final_suspects.end();
+			++itr)
+		{
+			cout << *itr << endl;
+		}
+	}
+
 
 	char in_char;
 	cin >> in_char;
-	if (final_suspects.find(in_char) != final_suspects.end())
-		cout << "Okay, we'll use " << in_char << endl;
+	if (final_suspects.find(in_char) == final_suspects.end())
+	{
+		cout << "Cannot use that separator!" << endl;
+		return 0;
+	}
+	else
+	{
+		cout << "Okay, we'll use the " << in_char << " separator" << endl;
+	}
+
 }

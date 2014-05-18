@@ -1,0 +1,8 @@
+// compile each source file, header files included by the source files
+g++ orig.cpp dynamic-array.cpp
+
+// now link the compiled source files
+g++ orig.o dynamic-array.o
+
+// or more simply
+// g++ *.o
